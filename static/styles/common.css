@@ -1,0 +1,9 @@
+@import "common/reset.css";
+@import "common/root.css";
+@import "common/page_bg.css";
+
+@import "common/header.css";
+
+@import "common/navigation.css";
+
+@import "common/content.css";

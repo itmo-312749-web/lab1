@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="static/icons/php-logo.svg" type="image/x-icon">
+    <style>
+        @import "static/styles/common.css";
+
+        .wrapper {
+            min-width: 840px;
+            max-width: 1080px;
+
+            width: calc(100% - 200px);
+
+            transition: all ease 0.5s;
+        }
+
+        .wrapper:nth-child(n) {
+            margin: 0 auto;
+        }
+
+        .wrapper:hover {
+            transform: scale(1.01);
+        }
+
+        .wrapper h2{
+            text-align: center;
+            padding: 10px;
+
+            background-color: #8f8f8f;
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+
+        .condition-holder img {
+            margin: 0 auto;
+            height: 100%;
+            width: 100%;
+            border-radius: 0 0 1.5rem 1.5rem;
+            transition: all ease 0.5s;
+        }
+    </style>
+    <title>Condition</title>
+</head>
+<body>
+    <!--Header-->
+    <header>
+        <ul>
+            <li>Kharlamov Vladislav (ID 312749)</li>
+            <li>Group P32311</li>
+            <li>Variant #312749</li>
+        </ul>
+    </header>
+
+    <!--Menu-->
+    <div class="sidebar">
+        <div class="logo-details">
+            <img class="icon" src="static/icons/php-logo.svg" alt="">
+            <div class="logo_name">WEB&nbsp;-&nbsp;Lab&nbsp;#1</div>
+            <i class="bx bx-menu" id="btn" ></i>
+        </div>
+        <ul class="nav-list">
+            <li id="home-btn" class="active">
+                <a href="index.html" tabindex="-1">
+                    <i class="bx bx-home"></i>
+                    <span class="links_name">Home</span>
+                </a>
+                <span class="tooltip">Home</span>
+            </li>
+            <li id="new-point-btn">
+                <a href="new.html">
+                    <i class="bx bx-plus-circle"></i>
+                    <span class="links_name">New</span>
+                </a>
+                <span class="tooltip">New Point</span>
+            </li>
+            <li id="results-btn">
+                <a href="results.php">
+                    <i class="bx bx-table" ></i>
+                    <span class="links_name">Results</span>
+                </a>
+                <span class="tooltip">Results</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="wrapper">
+            <h2>Condition</h2>
+            <div class="condition-holder">
+                <img src="static/img/web_lab1_condition.png" alt="Condition">
+            </div>
+        </div>
+    </div>
+
+    <script src="static/scripts/navigation.js"></script>
+</body>
+</html>

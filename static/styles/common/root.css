@@ -1,0 +1,29 @@
+:root {
+    /*Header variables*/
+    --header-height: 75px;
+
+    /*Menu variables*/
+    --closed-menu-width: 75px;
+    --opened-menu-width: 300px;
+
+    --input-color: #8f8f8f;
+    --input-border: #8f8f8f;
+    --input-background: #fff;
+    --input-placeholder: #CBD1DC;
+
+    --input-border-focus: rgba(0, 123, 255, .6);
+
+    --group-color: var(--input-color);
+    --group-border: var(--input-border);
+    --group-background: #8f8f8f;
+
+    --group-color-focus: #fff;
+    --group-border-focus: var(--input-border-focus);
+    --group-background-focus: rgba(0, 123, 255, .6);
+
+    --group-background-valid: limegreen;
+    --group-border-valid: limegreen;
+
+    --group-background-invalid: crimson;
+    --group-border-invalid: crimson;
+}

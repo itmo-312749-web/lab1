@@ -1,0 +1,37 @@
+@import "custom_scrollbar.css";
+
+.content {
+    position: absolute;
+    top: var(--header-height);
+    left: var(--closed-menu-width);
+    padding: 25px;
+    width: calc(100% - var(--closed-menu-width));
+    height: calc(100vh - var(--header-height));
+    transition: all 0.5s ease;
+
+    overflow: scroll;
+}
+
+.content::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.content::-webkit-scrollbar-track {
+    margin: 3px;
+    background: transparent;
+    border-radius: 10px;
+}
+
+.content::-webkit-scrollbar-thumb {
+    background: rgba(143, 143, 143, 1);
+    border-radius: 10px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+    background: rgba(143, 143, 143, 0.65);
+}
+.content::-webkit-scrollbar-corner {
+    background: transparent;
+}
+

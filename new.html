@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="static/icons/php-logo.svg" type="image/x-icon">
+    <style>
+        @import "static/styles/common.css";
+
+        .wrapper {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            align-items: center;
+
+            margin: 0 auto;
+            min-width: calc(420px + 1.5rem + 2 * 10px);
+            min-height: 100%;
+        }
+
+        .flex-item {
+            margin: 0 25px 25px 25px;
+            min-width: calc(420px + 1.5rem + 2 * 10px);
+            min-height: calc(420px + 1.5rem + 2 * 10px);
+        }
+
+        .flex-item h2 {
+            width: 100%;
+
+            text-align: center;
+            padding: 10px;
+
+            background-color: #8f8f8f;
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+
+        #plot {
+            position: absolute;
+
+            top: 50%;
+            left: 50%;
+            /*width: 100%;*/
+
+            background-color: white;
+            border-radius: 0 0 1.5rem 1.5rem;
+
+            transform: translate(-50%, -50%);
+        }
+
+        .plot-holder {
+            position: relative;
+            background-color: #ffffff;
+
+            min-height: 420px;
+
+            border-radius: 0 0 1.5rem 1.5rem;
+        }
+
+        .shape {
+            fill: lightsteelblue;
+        }
+
+        .shape:hover {
+            stroke-width: 2px;
+            fill-opacity: .75;
+        }
+
+        .form-holder {
+            position: relative;
+            padding: 10px;
+
+            min-width: 420px;
+            width: 100%;
+            min-height: 420px;
+
+            background-color: white;
+
+            color: black;
+
+            border-radius: 0 0 1.5rem 1.5rem;
+        }
+
+        .form-holder #user-data {
+            position: absolute;
+            display: block;
+
+            top: 50%;
+            left: 50%;
+
+            padding: 5%;
+
+            min-width: 420px;
+            width: 100%;
+            height: 100%;
+
+            transform: translate(-50%, -50%);
+        }
+
+        fieldset {
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .coordinates > div {
+            text-align: center;
+        }
+
+        .control-button {
+            padding: 5px 10px;
+
+            min-width: 100px;
+
+            text-align: center;
+
+            background-color: rgba(0, 123, 255, .6);
+
+            font-size: 1rem;
+            color: white;
+
+            border: none;
+            border-radius: 5px;
+        }
+
+        .submit-action-button {
+            display: block;
+            background-color: limegreen;
+            margin: 25px auto;
+        }
+
+        .form-field input[type=radio] {
+            display: none;
+        }
+
+        .form-field label,
+        .form-field input[type=button] {
+            display: block;
+            background-color: #bfbfbf;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+            height: 100%;
+            line-height: 40px;
+            border: 0;
+            transition: all 0.5s ease;
+        }
+
+        .form-field label {
+            width: calc(100% / 9);
+        }
+
+        .form-field input[type=button] {
+            width: calc(100% / 5);
+        }
+
+        .form-field label:hover,
+        .form-field input[type=button]:hover,
+        .form-field input[type=button].current-radius {
+            background-color: white;
+            color: #8f8f8f;
+            cursor: pointer;
+            transition: background-color ease 0.5s;
+        }
+
+        .form-field label:last-of-type,
+        .form-field input[type=button]:last-of-type {
+            border-radius: 0 4px 4px 0;
+        }
+
+        .form-field input:checked + label {
+            background-color: white;
+            color: #8f8f8f;
+        }
+
+        input[readonly] {
+            pointer-events: none;
+        }
+
+        .form-group {
+            position: relative;
+            display: flex;
+
+            margin: 25px auto;
+
+            width: 100%;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            width: 100%;
+            line-height: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            font-family: inherit;
+            border-radius: 0 6px 6px 0;
+            -webkit-appearance: none;
+            color: var(--input-color);
+            border: 3px solid var(--input-border);
+            background: var(--input-background);
+            transition: border .3s ease;
+        }
+
+        input.form-field {
+            padding: 8px 16px;
+        }
+
+        .form-field::placeholder {
+            color: var(--input-placeholder);
+        }
+
+        .form-field:focus {
+            outline: none;
+            border-color: var(--input-border-focus);
+        }
+
+        .form-group > label,
+        .form-field {
+            white-space: nowrap;
+            display: flex;
+        }
+
+        .form-group > label:first-child,
+        .form-field:first-child {
+            border-radius: 6px 0 0 6px;
+        }
+
+        .form-group > label:last-child {
+            border-radius: 0 6px 6px 0;
+        }
+
+        .form-group > label:not(:first-child),
+        .form-field:not(:first-child) {
+            margin-left: -1px;
+        }
+
+        .form-field {
+            position: relative;
+            z-index: 1;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .form-group > label {
+            text-align: center;
+            padding: 8px 12px;
+            font-size: 14px;
+            line-height: 25px;
+            color: white;
+            background: var(--group-background);
+            border: 1px solid var(--group-border);
+            transition: background .3s ease, border .3s ease, color .3s ease;
+        }
+
+        .form-group:focus-within > label:has(+ input[type=text]) {
+            color: var(--group-color-focus);
+            background: var(--group-background-focus);
+            border-color: var(--group-border-focus);
+        }
+
+        .form-group.valid > label {
+            background: var(--group-background-valid);
+            border-color: var(--group-border-valid);
+        }
+
+        .form-group.valid > .form-field {
+            border-color: var(--group-border-valid);
+        }
+
+        .form-group.invalid > label {
+            background: var(--group-background-invalid);
+            border-color: var(--group-border-invalid);
+        }
+
+        .form-group.invalid > .form-field {
+            border-color: var(--group-border-invalid);
+        }
+        .form-group.invalid > .form-field {
+            border-color: var(--group-border-invalid);
+        }
+    </style>
+    <title>Create New Dot</title>
+</head>
+<body>
+    <!--Header-->
+    <header>
+        <ul>
+            <li>Kharlamov Vladislav (ID 312749)</li>
+            <li>Group P32311</li>
+            <li>Variant #312749</li>
+        </ul>
+    </header>
+
+    <!--Menu-->
+    <div class="sidebar">
+        <div class="logo-details">
+            <img class="icon" src="static/icons/php-logo.svg" alt="">
+            <div class="logo_name">WEB&nbsp;-&nbsp;Lab&nbsp;#1</div>
+            <i class="bx bx-menu" id="btn"></i>
+        </div>
+        <ul class="nav-list">
+            <li id="home-btn">
+                <a href="index.html"> <i class="bx bx-home"></i> <span class="links_name">Home</span> </a> <span
+                    class="tooltip">Home</span>
+            </li>
+            <li id="new-point-btn" class="active">
+                <a href="new.html" tabindex="-1"> <i class="bx bx-plus-circle"></i> <span class="links_name">New</span>
+                </a> <span class="tooltip">New Point</span>
+            </li>
+            <li id="results-btn">
+                <a href="results.php"> <i class="bx bx-table"></i> <span class="links_name">Results</span> </a> <span
+                    class="tooltip">Results</span>
+            </li>
+        </ul>
+    </div>
+
+    <!--Content-->
+    <div class="content">
+        <div class="wrapper">
+            <div class="flex-item">
+                <h2>Plot</h2>
+                <div class="plot-holder">
+                    <!--Plot-->
+                    <svg id="plot" height="420px" width="420px">
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7"/>
+                            </marker>
+                        </defs>
+                        <rect class="shape" x="210" y="210" width="150" height="150"/>
+                        <polygon class="shape" points="210 135, 210 210, 360 210"/>
+                        <path class="shape" d="M 210 285 A 75 75, 0, 0, 1, 135 210 L 210 210 Z"/>
+                        <line x1="20" y1="210" x2="380" y2="210" stroke="#000" stroke-width="2"
+                              marker-end="url(#arrowhead)"/>
+                        <line x1="210" y1="400" x2="210" y2="40" stroke="#000" stroke-width="2"
+                              marker-end="url(#arrowhead)"/>
+
+                        <circle cx="210" cy="210" r="3" fill="red"/>
+
+                        <circle cx="210" cy="60" r="3"/>
+                        <text class="plot-label" text-anchor="end" alignment-baseline="middle" x="200" y="60">R
+                        </text>
+                        <circle cx="210" cy="135" r="3"/>
+                        <text class="plot-label" text-anchor="end" alignment-baseline="middle" x="200" y="135">R/2
+                        </text>
+                        <circle cx="210" cy="285" r="3"/>
+                        <text class="plot-label" alignment-baseline="middle" x="220" y="285">-R/2
+                        </text>
+                        <circle cx="210" cy="360" r="3"/>
+                        <text class="plot-label" alignment-baseline="middle" x="220" y="360">-R
+                        </text>
+
+                        <circle cx="60" cy="210" r="3"/>
+                        <text class="plot-label" text-anchor="middle" alignment-baseline="baseline" x="360" y="200">
+                            R
+                        </text>
+                        <circle cx="135" cy="210" r="3"/>
+                        <text class="plot-label" text-anchor="middle" alignment-baseline="baseline" x="285" y="200">
+                            R/2
+                        </text>
+                        <circle cx="285" cy="210" r="3"/>
+                        <text class="plot-label" text-anchor="middle" alignment-baseline="hanging" x="135" y="220">
+                            -R/2
+                        </text>
+                        <circle cx="360" cy="210" r="3"/>
+                        <text class="plot-label" text-anchor="middle" alignment-baseline="hanging" x="60" y="220">-R
+                        </text>
+                    </svg>
+                </div>
+            </div>
+            <div class="flex-item">
+                <h2>Form</h2>
+
+                <div class="form-holder">
+                    <form id="user-data" action="results.php" method="POST">
+                        <div class="form-group radius-group">
+                            <label>radius</label>
+                            <div class="form-field">
+                                <input type="button" id="radius-1" name="r" value="1.0">
+                                <input type="button" id="radius-2" name="r" value="1.5">
+                                <input type="button" id="radius-3" name="r" value="2.0">
+                                <input type="button" id="radius-4" name="r" value="2.5">
+                                <input type="button" id="radius-5" name="r" value="3.0">
+                            </div>
+
+                            <input type="hidden" id="radius" name="radius" placeholder="actual radius value" readonly
+                                   tabindex="-1">
+                        </div>
+                        <div class="form-group x-group">
+                            <label>x</label>
+                            <div class="form-field">
+                                <input type="radio" id="x-1" name="x" value="-4">
+                                <label for="x-1">-4</label>
+                                <input type="radio" id="x-2" name="x" value="-3">
+                                <label for="x-2">-3</label>
+                                <input type="radio" id="x-3" name="x" value="-2">
+                                <label for="x-3">-2</label>
+                                <input type="radio" id="x-4" name="x" value="-1">
+                                <label for="x-4">-1</label>
+                                <input type="radio" id="x-5" name="x" value="0">
+                                <label for="x-5">0</label>
+                                <input type="radio" id="x-6" name="x" value="1">
+                                <label for="x-6">1</label>
+                                <input type="radio" id="x-7" name="x" value="2">
+                                <label for="x-7">2</label>
+                                <input type="radio" id="x-8" name="x" value="3">
+                                <label for="x-8">3</label>
+                                <input type="radio" id="x-9" name="x" value="4">
+                                <label for="x-9">4</label>
+                            </div>
+                        </div>
+                        <div class="form-group y-group">
+                            <label for="y">y</label>
+                            <input type="text" id="y" class="form-field" name="y" placeholder="[-3;3]">
+                        </div>
+                        <input type="submit" name="previous" class="submit-action-button control-button" value="Submit">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/scripts/navigation.js"></script>
+    <script src="static/scripts/userData/userData.js"></script>
+    <script src="static/scripts/userData/setUserData.js"></script>
+    <script src="static/scripts/submit.js"></script>
+</body>
+</html>
